@@ -1,0 +1,11 @@
+$bg-content: #EBEAED;
+$c-link: #1890ff;
+
+// ** Display Flex
+@mixin displayFlex($direction, $wrap, $justify, $item, $content) {
+    display: flex;
+    flex-flow: $direction $wrap;
+    justify-content: $justify;
+    align-items: $item;
+    align-content: $content;
+}

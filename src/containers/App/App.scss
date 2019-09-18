@@ -1,0 +1,25 @@
+@import '../../assets/scss/utils';
+@import url('https://fonts.googleapis.com/css?family=PT+Mono|Source+Sans+Pro&display=swap');
+
+#root {
+    background-color: $bg-content;
+    font-family: 'Source Sans Pro', sans-serif;
+    width: 100vw;
+    height: 100vh;
+}
+
+.app-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding-top: 100px;
+
+    .header-actions {
+        @include displayFlex(row, nowrap, space-between, center, center);
+        margin-top: 20px;
+
+        .checkbox-search-tags {
+            margin-left: 20px;
+            margin-right: auto;
+        }
+    }
+}

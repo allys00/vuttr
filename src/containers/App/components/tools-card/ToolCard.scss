@@ -1,0 +1,25 @@
+.tool-card {
+    position: relative;
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #FCFCFD;
+    border-radius: 10px;
+
+    .tool-title {
+        padding-left: 0;
+        font-size: 20px;
+        color: #1890ff;
+    }
+
+    .tags-highlight {
+        font-weight: bold;
+    }
+
+    .remove-button {
+        position: absolute;
+        right: 0;
+        top: 10px;
+        color: #F95E5A;
+
+    }
+}

@@ -1,0 +1,16 @@
+.create-tool-form {
+
+    .btn-add-tool {
+        display: flex;
+        margin-top: 20px;
+        margin-left: auto;
+    }
+
+    .input-control {
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+    }
+}

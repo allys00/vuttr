@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Input, Checkbox, Button } from 'antd';
+import { Input, Checkbox, Button, Modal } from 'antd';
 import Alert from '../../components/alert/Alert';
 import { ITool } from '../../models/Tools.model';
 import Axios from 'axios';
 import { urlBase } from '../../utils/urls.constants';
 import AwesomeDebouncePromise from 'awesome-debounce-promise';
 import Notification, { NOTIFICATION_TYPE } from '../../components/notification/Notification';
-import ToolCard from './components/tools-card/ToolCard';
+import ToolCard from './components/tool-card/ToolCard';
 
 import './App.scss'
+import CreateTool from './components/create-tool/CreateTool';
 
 const { Search } = Input;
 
@@ -17,6 +18,7 @@ const App: React.FC = () => {
   const [toolToRemove, setToolToRemove] = useState<ITool | null>(null);
   const [searchValue, setSearchValue] = useState<string>('');
   const [searchInTags, setSearchInTags] = useState<boolean>(false);
+  const [openCreateTool, setOpenCreateTool] = useState<boolean>(false);
 
 
   useEffect(() => {
@@ -36,6 +38,9 @@ const App: React.FC = () => {
   async function onRemoveTool(tool: ITool) {
     try {
       await Axios.delete(`${urlBase}/${tool.id}`);
+      const { data } = await Axios.get(urlBase);
+      setTools(data)
+      setToolToRemove(null);
     } catch (error) {
       Notification(NOTIFICATION_TYPE.ERROR, 'Error', error.message);
     }
@@ -49,6 +54,13 @@ const App: React.FC = () => {
     const { data } = await searchAPIDebounced(text);
     setTools(data);
     setSearchValue(text);
+  }
+
+  async function addNewTool(tool: ITool) {
+    tool.tags = (tool.tags as any).split(' ');
+    const { data } = await Axios.post(urlBase, tool);
+    setTools([...tools, data]);
+    setOpenCreateTool(false);
   }
 
   return (
@@ -70,7 +82,7 @@ const App: React.FC = () => {
           Search in tags only
           </Checkbox>
 
-        <Button icon="plus"> ADD </Button>
+        <Button icon="plus" onClick={() => setOpenCreateTool(true)}> ADD </Button>
       </section>
 
 
@@ -94,6 +106,18 @@ const App: React.FC = () => {
           onOk={() => onRemoveTool(toolToRemove)}
           onCancel={() => setToolToRemove(null)} />
       }
+
+      <Modal
+        title="Create Tool"
+        visible={openCreateTool}
+        okText="Add Tool"
+        footer={null}
+        onCancel={() => setOpenCreateTool(false)}
+      >
+        <CreateTool
+          addNewTool={addNewTool}
+        />
+      </Modal>
 
     </main>
   );
